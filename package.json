@@ -1,0 +1,16 @@
+{
+  "name": "gulp-inject-views",
+  "version": "0.0.1",
+  "license": "MIT",
+  "dependencies": {
+    "gulp-util": "^3.0.7",
+    "html-minifier": "^2.1.6",
+    "gulp": "^3.9.1",
+    "through2": "^2.0.1",
+    "path": "^0.12.7",
+    "html-minifier": "^2.1.7",
+    "globule":"^1.0.0"
+  },
+  "devDependencies": {
+  }
+}
