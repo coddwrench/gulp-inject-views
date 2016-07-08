@@ -7,14 +7,18 @@ var pluginName = "gulp-inject-views";
 var Injector = require('./Injector.js');
 
 module.exports = function (options) {
-
-	var views = globule.find((typeof options == "string" ? options : options.viewsSrc) || "*.html").map(function (file) {
+	var views, controllers;
+	if (typeof options == "string") {
+		options = { viewsSrc: options };
+	} else {
+		options = options || {};
+		controllers = options.controllersSrc ? globule.find(options.controllersSrc).map(function (file) {
+			return path.parse(file);
+		}) : undefined;
+	}
+	views = globule.find(options.viewsSrc ? options.viewsSrc : "**/*.html").map(function (file) {
 		return path.parse(file);
 	});
-
-	var controllers = options.controllersSrc ? globule.find(options.controllersSrc).map(function (file) {
-		return path.parse(file);
-	}) : undefined;
 
 	var injector = new Injector(views, controllers);
 

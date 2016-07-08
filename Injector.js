@@ -11,14 +11,19 @@ var Injector = (function () {
 	}
 
 	Injector.prototype.getFile = function (viewPath) {
-		var stat = fs.statSync(viewPath);
-		if (stat.isFile()) {
-			var text = fs.readFileSync(viewPath, 'utf8');
-			var result = htmlmin.minify(text, { collapseWhitespace: true, preventAttributesEscaping: true });
-			return result;
-		} else {
-			return "";
+		//ToDo: Use fs.stat
+		try {
+			var stat = fs.statSync(viewPath);
+
+			if (stat.isFile()) {
+				var text = fs.readFileSync(viewPath, 'utf8');
+				var result = htmlmin.minify(text, { collapseWhitespace: true, preventAttributesEscaping: true });
+				return result;
+			}
+		} catch (err) {
+			console.log(err.message);
 		}
+		return undefined;
 	}
 
 	Injector.prototype.unixStylePath = function (filePath) {
@@ -64,9 +69,11 @@ var Injector = (function () {
 				return parsedPath.name == element.name && parsedPath.dir == element.dir
 			}) : parsedPath;
 			var html = this.getFile(value.path);
-			html = html.replace(/["]/g, "\\\"");
-			result = result.substr(0, value.start + indexOffset) + html + result.substr(value.start+ indexOffset + value.length);
-			indexOffset += html.length - value.length ;
+			if (html) {
+				html = html.replace(/["]/g, "\\\"");
+				result = result.substr(0, value.start + indexOffset) + html + result.substr(value.start + indexOffset + value.length);
+				indexOffset += html.length - value.length;
+			}
 		}
 
 		return {
