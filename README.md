@@ -6,6 +6,15 @@ Install package with NPM and add it to your development dependencies:
 
 ## Usage
 
+Create js file:
+```javascript
+var template = "{{load path='view.html'}}";
+```
+Create view.html file:
+```html
+<div>Simple html!</div>
+```
+
 ```javascript
 var gulp = require('gulp');
 var inject = require('gulp-inject-views');
