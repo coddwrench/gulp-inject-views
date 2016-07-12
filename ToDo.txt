@@ -1,0 +1,2 @@
+1. Add support jsviews/render.
+2. Add precompilation templates. 
