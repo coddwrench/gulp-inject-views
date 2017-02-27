@@ -17,7 +17,8 @@ var Injector = (function () {
 
 			if (stat.isFile()) {
 				var text = fs.readFileSync(viewPath, 'utf8');
-				var result = htmlmin.minify(text, { collapseWhitespace: true, preventAttributesEscaping: true });
+				text = text.replace(/[\n\r\t]+/g, " ");
+				var result = htmlmin.minify(text, { collapseWhitespace: true, conservativeCollapse:true });
 				return result;
 			}
 		} catch (err) {
@@ -57,6 +58,7 @@ var Injector = (function () {
 	}
 
 	Injector.prototype.inject = function (file, options) {
+		debugger
 		var contents = String(file.contents);
 		var result = contents;
 		var lines = this.parse(contents);
